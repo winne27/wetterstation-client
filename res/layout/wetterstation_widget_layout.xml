@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/myshape"
+    android:padding="0dp" 
+    android:resizeMode="horizontal|vertical" >
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/headshape"
+        android:hint="@string/header"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:text="@string/header"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/logoimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/header"
+        android:contentDescription="@+id/logo"
+        android:maxWidth="@android:dimen/app_icon_size"
+        android:paddingLeft="8dp"
+        android:paddingTop="17dp"
+        android:src="@drawable/app_icon" />
+
+    <TextView 
+        android:id="@+id/uhrzeitlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/logoimg"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="8dp"
+        android:text="@string/uhrzeitlabel"
+        android:textAlignment="center"
+        android:textColor="#112211"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/uhrzeit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/uhrzeitlabel"
+        android:layout_marginTop="-4dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="7dp"
+        android:textAlignment="center"
+        android:textColor="#112211"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/logoimg"
+        android:gravity="center"
+        android:textColor="#112211"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/tempsuffix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/temp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/temp"
+        android:text="@string/tempsuffix"
+        android:textColor="#112211"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/humilabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temp"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/logoimg"
+        android:text="@string/humilabel"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/humi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/temp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/humilabel"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/windlabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/humilabel"
+        android:layout_below="@+id/humilabel"
+        android:text="@string/windlabel"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/humi"
+        android:layout_below="@+id/humilabel"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/windgust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/humilabel"
+        android:layout_marginLeft="0dp"
+        android:layout_toRightOf="@+id/wind"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/winddir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/humilabel"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/windgust"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/presslabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/humilabel"
+        android:layout_below="@+id/windlabel"
+        android:text="@string/presslabel"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/press"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/humi"
+        android:layout_below="@+id/wind"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+ 
+    <TextView
+        android:id="@+id/staglabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/humilabel"
+        android:layout_below="@+id/presslabel"
+        android:text="@string/staglabel"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/stag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/humi"
+        android:layout_below="@+id/press"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+    <ProgressBar
+        android:id="@+id/sonneprogress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="209dp"
+        android:layout_height="22dp"
+        android:layout_alignLeft="@+id/uhrzeit"
+        android:layout_below="@+id/staglabel"
+        android:layout_marginTop="6dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:progress="0"
+        android:progressDrawable="@drawable/myprogress" />
+
+    <TextView
+        android:id="@+id/sonneproz"
+        android:layout_width="209dp"
+        android:layout_height="22dp"
+        android:layout_alignLeft="@+id/uhrzeit"
+        android:layout_below="@+id/staglabel"
+        android:layout_marginTop="4dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:textAlignment="center"
+        android:textColor="#112211"
+        android:textSize="12sp" />
+
+</RelativeLayout>

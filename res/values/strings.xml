@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fehnwetter</string>
+    <string name="widget_name">Fehnwetter Widget </string>
+    <string name="header">Wetterstation Rhauderfehn</string>
+    <string name="logo">Logo</string>
+    <string name="windlabel">Wind km/h:</string>
+    <string name="presslabel">Luftdruck:</string>
+    <string name="humilabel">Luftfeuchte:</string>
+    <string name="tempsuffix">°C</string>
+    <string name="uhrzeitlabel">gemessen um</string>
+    <string name="sonnelabel">Sonnenschein</string>
+    <string name="staglabel">Sonnentag:</string>
+</resources>

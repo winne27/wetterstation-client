@@ -1,0 +1,15 @@
+.ui-datepicker select.ui-datepicker-month
+{
+    width: 60%;
+}
+
+.ui-datepicker select.ui-datepicker-year
+{
+    width: 30%;
+}
+.ui-monthpicker-action-box
+{
+   width: 100%;
+   text-align: center;
+   padding: 5px 0;
+}
