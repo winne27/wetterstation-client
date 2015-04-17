@@ -1,4 +1,4 @@
-//var setDateField =
+﻿//var setDateField =
 var setDateField =
 {
    Tag: function(dateString)
@@ -7,6 +7,13 @@ var setDateField =
       var month = dateString.substr(5,2) - 1;
       var tag = dateString.substr(8,2);
       $("#TagDatum").datepicker( "setDate", new Date(jahr, month, tag));
+   },
+   Vorschau: function(dateString)
+   {
+      var jahr = dateString.substr(0,4) * 1;
+      var month = dateString.substr(5,2) - 1;
+      var tag = dateString.substr(8,2);
+      $("#VorschauDatum").datepicker( "setDate", new Date(jahr, month, tag));
    },
    Monat: function(dateString)
    {
@@ -53,6 +60,44 @@ var setArrows =
             var dateObject = $("#TagDatum").datepicker("getDate");
             var TagDatum = $.datepicker.formatDate("yy-mm-dd", dateObject);
             app.getSpecificData(getDatum.Tag(TagDatum,-1),'Tag')
+         };
+      }
+   },
+   Vorschau: function()
+   {
+      var dateObject = $("#VorschauDatum").datepicker("getDate");
+      var TagDatum = $.datepicker.formatDate("yy-mm-dd", dateObject);
+
+      if (TagDatum == app.heute.Tag)
+      {
+         document.getElementById('leftVorschau').className = 'softy';
+         document.getElementById('leftVorschau').onclick = function(){};
+      }
+      else
+      {
+         document.getElementById('leftVorschau').className = 'full';
+         document.getElementById('leftVorschau').onclick = function()
+         {
+            var dateObject = $("#VorschauDatum").datepicker("getDate");
+            var TagDatum = $.datepicker.formatDate("yy-mm-dd", dateObject);
+            app.fillForecastHourly(getDatum.Tag(TagDatum,-1));
+         };
+      }
+
+      var maxDate = getDatum.Tag('',9);
+      if (TagDatum == maxDate)
+      {
+         document.getElementById('rightVorschau').className = 'softy';
+         document.getElementById('rightVorschau').onclick = function(){};
+      }
+      else
+      {
+         document.getElementById('rightVorschau').className = 'full';
+         document.getElementById('rightVorschau').onclick = function()
+         {
+            var dateObject = $("#VorschauDatum").datepicker("getDate");
+            var TagDatum = $.datepicker.formatDate("yy-mm-dd", dateObject);
+            app.fillForecastHourly(getDatum.Tag(TagDatum,+1));
          };
       }
    },
@@ -363,3 +408,127 @@ function monatsShift(dir)
    app.requestMonatsGraph();
 }
 
+function setWindCircle(canvas,WindData,type)
+{
+   var angle =
+   {
+      O:    0,
+      OSO:  1,
+      SO:   2,
+      SSO:  3,
+      S:    4,
+      SSW:  5,
+      SW:   6,
+      WSW:  7,
+      W:    8,
+      WNW:  9,
+      NW:   10,
+      NNW:  11,
+      N:    12,
+      NNO:  13,
+      NO:   14,
+      ONO:  15
+   }
+   var ctx = canvas.getContext("2d");
+   var centerX = canvas.width / 2;
+   var centerY = canvas.height / 2;
+
+   var radi =
+   {
+      big: 60,
+      small: 32,
+      tiny: 25
+   };
+
+   var radius = radi[type];
+   ctx.beginPath();
+   ctx.fillStyle = "#FFFFFF";
+   ctx.arc(centerX,centerY,radius,0,2*Math.PI);
+   ctx.closePath();
+   ctx.fill();
+   ctx.strokeStyle="#FFD37A";
+   ctx.stroke();
+   ctx.textAlign = 'center';
+   ctx.fillStyle = 'black';
+   var bft1 = getBeaufort(WindData.WindSpeed);
+   if (!WindData.WindGust)
+   {
+      var bft2 = bft1;
+   }
+   else
+   {
+      var bft2 = getBeaufort(WindData.WindGust);
+   }
+   if (bft1 === bft2)
+   {
+      var bft = bft1;
+   }
+   else
+   {
+      var bft = bft1 + '-' + bft2;
+   }
+   if (type === 'big')
+   {
+      ctx.font =  'bold 12px Verdana';
+      ctx.fillText(WindData.WindDir,centerX,centerY - 22);
+      ctx.fillText(WindData.WindSpeed + ' km/h',centerX,centerY - 5);
+      ctx.fillText('Böen ' + WindData.WindGust + ' km/h',centerX,centerY + 12);
+      ctx.fillText(bft + ' Bft',centerX,centerY + 29);
+      var arrLen = 15;
+      var arrArc = 0.1;
+   }
+   else if (type === 'small')
+   {
+      ctx.font =  '9px Verdana';
+      ctx.fillText(WindData.WindDir,centerX,centerY - 13);
+      ctx.fillText(WindData.WindSpeed + ' km/h',centerX,centerY - 3);
+      ctx.fillText(WindData.WindGust + ' km/h',centerX,centerY + 7);
+      ctx.fillText(bft + ' Bft',centerX,centerY + 17);
+      var arrLen = 9;
+      var arrArc = 0.15;
+   }
+   else
+   {
+      ctx.font =  '9px Verdana';
+      ctx.fillText(WindData.WindDir,centerX,centerY - 9);
+      ctx.fillText(WindData.WindSpeed + ' km/h',centerX,centerY + 2);
+      ctx.fillText(bft + ' Bft',centerX,centerY + 14);
+      var arrLen = 7;
+      var arrArc = 0.18;
+   }
+   ctx.save();
+   ctx.translate(centerX,centerY);
+   ctx.rotate((angle[WindData.WindDir] * Math.PI/8));
+   ctx.strokeStyle="#FFD37A";
+   ctx.fillStyle = "#FFD37A";
+   var x = radius * Math.cos(arrArc);
+   var y = radius * Math.sin(arrArc);
+   ctx.beginPath();
+   ctx.moveTo(radius - arrLen,0);
+   ctx.lineTo(x,-y);
+   ctx.arc(0,0,radius,0.1,0.1);
+   ctx.closePath();
+   ctx.fill();
+   ctx.stroke();
+   ctx.restore();
+}
+function getBeaufort(v)
+{
+    if (v < 1) return 0;
+    if (v < 5) return 1;
+    if (v < 11) return 2;
+    if (v < 19) return 3;
+    if (v < 28) return 4;
+    if (v < 38) return 5;
+    if (v < 49) return 6;
+    if (v < 61) return 7;
+    if (v < 74) return 8;
+    if (v < 88) return 9;
+    if (v < 102) return 10;
+    if (v < 117) return 11;
+    return 12;
+}
+function showDay(obj)
+{
+   app.fillForecastHourly(obj.children[0].value);
+}

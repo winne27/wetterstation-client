@@ -36,22 +36,31 @@ var app =
          return;
       }
       this.types = new Array;
-      this.types[0] = 'Akt';
-      this.types[1] = 'Tag';
+      this.types[0] = 'Jahre';
+      this.types[1] = 'Jahr';
       this.types[2] = 'Monat';
-      this.types[3] = 'Jahr';
-      this.types[4] = 'Jahre';
-      this.typesCount = 5;
+      this.types[3] = 'Tag';
+      this.types[4] = 'Akt';
+      this.types[5] = 'Forecast';
+      this.types[6] = 'Forecast10';
+      this.typesCount = 7;
 
       this.startJahr = 2009;
 
       this.isCordovaApp = !!window.cordova;
-      this.widthLimits = new Array(323,641,959,1277,1595);
-      this.naviWidth   = new Array(323,641,959,1277,1595);
+      this.widthLimits = new Array(323,641,959,1277,1595,1913,2231);
+      this.naviWidth   = new Array(323,641,959,1277,1595,1913,2231);
       this.baeumeLeft  = new Array(0,158,318);
       this.baeumeRight = new Array(0,158,318);
       this.left = [];
       var scrollDelta = 318;
+
+      this.WindData =
+      {
+         WindDir: 0,
+         WindSpeed: 0,
+         WindGust: 0
+      }
 
       if ($(window).width() == 320)
       {
@@ -61,6 +70,8 @@ var app =
          this.left[2] = scrollDelta * 2 + 2;
          this.left[3] = scrollDelta * 3 + 2;
          this.left[4] = scrollDelta * 4 + 2;
+         this.left[5] = scrollDelta * 5 + 2;
+         this.left[6] = scrollDelta * 6 + 2;
       }
       else
       {
@@ -69,7 +80,30 @@ var app =
          this.left[1] = scrollDelta + 1;
          this.left[2] = scrollDelta * 2 + 1;
          this.left[3] = scrollDelta * 3 + 1;
-         this.left[4] = scrollDelta * 4 + 3;
+         this.left[4] = scrollDelta * 4 + 1;
+         this.left[5] = scrollDelta * 5 + 1;
+         this.left[6] = scrollDelta * 6 + 1;
+      }
+
+      if ($(window).width() < this.left[3])
+      {
+         window.scrollTo(this.left[4], 0);
+      }
+      else if ($(window).width() < this.left[4])
+      {
+         window.scrollTo(this.left[3], 0);
+      }
+      else if ($(window).width() < this.left[5])
+      {
+         window.scrollTo(this.left[3], 0);
+      }
+      else if ($(window).width() < this.left[6])
+      {
+         window.scrollTo(this.left[2], 0);
+      }
+      else
+      {
+         window.scrollTo(0, 0);
       }
 
       this.lastTimestamp = '';
@@ -83,6 +117,8 @@ var app =
       this.leftCon = 1;
       this.timer = null;
 
+      this.forecastHourly = {};
+      this.createHourBlocks();
       // init dates
       this.setHeute();
       this.setupDateFields();
@@ -143,6 +179,7 @@ var app =
             app.queryext = '&platform=&version=&model=';
          }
          app.client = (app.isCordovaApp) ? 'App' : 'Browser';
+         //app.weather = io.connect('https://socken-neu.fehngarten.de',
          app.weather = io.connect('https://socken.fehngarten.de',
                                  {
                                     timeout: 5000,
@@ -168,6 +205,7 @@ var app =
 
          app.weather.on('data',function(data)
          {
+            //console.log(data);
             app.fillPage(data);
             document.getElementById('offline').style.display = 'none';
          })
@@ -187,6 +225,25 @@ var app =
             document.getElementById('offline').style.display = 'none';
          })
 
+         app.weather.on('radar',function(data)
+         {
+            document.getElementById('radar').src = data;
+         })
+
+         app.weather.on('forecastHourly',function(data)
+         {
+            //console.log(data);
+            app.saveForecastHourly(data);
+            var dateObj = $("#VorschauDatum").datepicker("getDate");
+            var TagDatum = $.datepicker.formatDate("yy-mm-dd", dateObj);
+            app.fillForecastHourly(TagDatum);
+         })
+
+         app.weather.on('forecastTenDay',function(data)
+         {
+            app.fillForecastTenDay(data);
+         })
+
          app.weather.on('successWarningEntry',function(data)
          {
             successWarningEntry(data);
@@ -195,9 +252,112 @@ var app =
       }
       else
       {
-         console.log(app.weather);
+         //console.log(app.weather);
          app.weather.emit('refresh',{});
          app.setupVergleichsCons();
+      }
+   },
+
+   fillForecastTenDay: function(data,day)
+   {
+      if (typeof(day) === 'undefined')
+      {
+         day = getDatum.Tag('',0);
+      }
+      for (var i = 0; i < 10; i++)
+      {
+         for (var key in data[i])
+         {
+            //console.log(key);
+            if (key === 'ForecastIcon')
+            {
+               document.getElementById('ForecastIcon' + i).src = "./img/" + data[i].ForecastIcon +  ".gif";
+            }
+            else if (key === 'ForecastDateInternal')
+            {
+               document.getElementById('ForecastDateInternal' + i).value = data[i].ForecastDateInternal;
+            }
+            else if (key.substr(0,12) === 'ForecastTemp')
+            {
+               document.getElementById(key + i).innerHTML = data[i][key] + '&#176;';
+            }
+            else if (document.getElementById(key + i))
+            {
+               document.getElementById(key + i).innerHTML = data[i][key];
+            }
+         }
+         var WindDataSmall =
+         {
+             WindDir: data[i].ForecastWindDir,
+             WindSpeed: data[i].ForecastWindSpeed,
+             WindGust: data[i].ForecastWindGust
+         }
+         setWindCircle(document.getElementById("ForecastWindRose" + i),WindDataSmall,"small");
+      }
+   },
+
+   saveForecastHourly: function(data)
+   {
+      for (var day in data)
+      {
+         if (!this.forecastHourly[day])
+         {
+            this.forecastHourly[day] = [];
+         }
+         for (var hour in data[day])
+         {
+            if (!this.forecastHourly[day][hour])
+            {
+               this.forecastHourly[day][hour] = {};
+            }
+            for (var key in data[day][hour])
+            {
+               this.forecastHourly[day][hour][key] = data[day][hour][key];
+            }
+         }
+      }
+   },
+   fillForecastHourly: function(tag)
+   {
+      setDateField.Vorschau(tag);
+      setArrows.Vorschau();
+
+      var dayData = this.forecastHourly[tag];
+      var heute = getDatum.Tag('',0);
+
+      for (var day in this.forecastHourly)
+      {
+         if (day < heute)
+         {
+            delete this.forecastHourly[day];
+         }
+      }
+
+      var d = new Date();
+      var aktStunde = d.getHours();
+
+      for (var hour = 0; hour < 24; hour++)
+      {
+         if (heute === tag && hour <= aktStunde)
+         {
+            document.getElementById('hourBlock' + hour).style.display = 'none';
+         }
+         else
+         {
+            document.getElementById('hourBlock' + hour).style.display = 'block';
+            document.getElementById('HourlyHour' + hour).innerHTML = hour + ':00';
+            document.getElementById('HourlyIcon' + hour).src = "./img/" + dayData[hour].HourlyIcon +  ".gif";
+            document.getElementById('HourlyTemp' + hour).innerHTML = dayData[hour].HourlyTemp + '&#176;';
+            document.getElementById('HourlyPop' + hour).innerHTML = dayData[hour].HourlyPop + '%';
+            document.getElementById('HourlyCondition' + hour).innerHTML = dayData[hour].HourlyCondition;
+
+            var WindDataSmall =
+            {
+                WindDir: dayData[hour].HourlyWindDir,
+                WindSpeed: dayData[hour].HourlyWindSpeed,
+            }
+            setWindCircle(document.getElementById("HourlyWindRose" + hour),WindDataSmall,"tiny");
+         }
       }
    },
 
@@ -222,9 +382,15 @@ var app =
                {
                   document.getElementById(section + fieldName).innerHTML = data[section].values[fieldName];
                }
+               if (typeof(app.WindData[fieldName]) !== 'undefined')
+               {
+                  app.WindData[fieldName] = data[section].values[fieldName];
+               }
             }
          }
       }
+
+      setWindCircle(document.getElementById("AktWind"),app.WindData,"big");
 
       // Spezialfelder
       if (typeof(data.Akt) != 'undefined' && typeof(data.Akt.special) != 'undefined')
@@ -239,7 +405,7 @@ var app =
             var ctx = canvas.getContext("2d");
             var centerX = canvas.width / 2;
             var centerY = canvas.height / 2;
-            var radius = 100;
+            var radius = 60;
             ctx.fillStyle = "#FFFFFF";
             ctx.beginPath();
             ctx.arc(centerX,centerY,radius,0,2*Math.PI);
@@ -250,18 +416,22 @@ var app =
             ctx.stroke();
             ctx.fillStyle = "#FFFF00";
             ctx.beginPath();
-            var sradius = Math.sqrt(data.Akt.special.sonnenProzent / 100) * 100;
+            var sradius = Math.pow(data.Akt.special.sonnenProzent / 100,0.8) * radius;
             ctx.arc(centerX,centerY,sradius,0,2*Math.PI,true);
             ctx.closePath();
             ctx.fill();
             ctx.strokeStyle="#EBD700";
             ctx.stroke();
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'black';
+            ctx.font = 'bold 12px Verdana';
+            ctx.fillText(data.Akt.special.sonnenProzent + '%',centerX,centerY + 3);
          }
          if (typeof(data.Akt.special.soilfrostProb) != 'undefined')
          {
             document.getElementById('soilfrostHtml').innerHTML = data.Akt.special.soilfrostHtml;
             document.getElementById('soilfrostProbText').innerHTML = data.Akt.special.soilfrostProb + '%';
-            var colorwidth = 312 * data.Akt.special.soilfrostProb / 100;
+            var colorwidth = (document.getElementById('soilfrostShell').offsetWidth - 2) * data.Akt.special.soilfrostProb / 100;
             document.getElementById('soilfrostProbColor').style.width = colorwidth + 'px';
          }
       }
@@ -412,9 +582,9 @@ var app =
       $.datepicker.setDefaults( $.datepicker.regional["de"]);
       $("#TagDatum").datepicker(
       {
-         dateFormat: "d. MM yy",
+         dateFormat: "D. d. M yy",
          altFormat: "yy-mm-dd",
-         minDate: "2. Juni 2009",
+         minDate: "Di. 2. Jun 2009",
          maxDate: "+0d",
          changeMonth: true,
          changeYear: true,
@@ -431,6 +601,28 @@ var app =
       })
       $("#TagDatum").datepicker( "setDate", app.heute.Tag);
       setArrows.Tag();
+
+      $("#VorschauDatum").datepicker(
+      {
+         dateFormat: "D. d. MM",
+         altFormat: "yy-mm-dd",
+         minDate: "+0d",
+         maxDate: "+9d",
+         changeMonth: true,
+         changeYear: true,
+         beforeShow : function(input, inst)
+         {
+             $('#ui-datepicker-div').removeClass('monthPickerWindow');
+         },
+         onSelect: function(value,date)
+         {
+              var dateObj = $(this).datepicker("getDate");
+              var VorschauDatum = $.datepicker.formatDate("yy-mm-dd", dateObj);
+              app.fillForecastHourly(VorschauDatum);
+         }
+      })
+      $("#VorschauDatum").datepicker( "setDate", "+0d");
+      setArrows.Vorschau();
 
       // Monat einstellen
       this.monthPicker = new monthPicker(document.getElementById('MonatDatum'),
@@ -490,7 +682,6 @@ var app =
    },
    getSpecificData:  function(dateString,type)
    {
-
       setDateField[type](dateString);
       setArrows[type]();
 
@@ -659,6 +850,16 @@ var app =
          document.getElementById('baeumeLinks').style.left = app.baeumeLeft[app.conCount - 3] + 'px';
          document.getElementById('baeumeRechts').style.right = app.baeumeRight[app.conCount - 3] + 'px';
       }
+   },
+   createHourBlocks: function()
+   {
+      var newBlockHtml = document.getElementById('hourBlocks').innerHTML;
+      var nullBlockHtml = document.getElementById('hourBlocks').innerHTML;
+      for (var i = 1; i < 24; i++)
+      {
+         newBlockHtml = newBlockHtml + nullBlockHtml.replace(/0/g,i);
+      }
+      document.getElementById('hourBlocks').innerHTML = newBlockHtml;
    }
 
 };

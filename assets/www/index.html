@@ -49,72 +49,288 @@
        <div class="infoButton" onclick="this.parentElement.style.display = 'none';">ok</div>
       </div>
       <div onclick="toggleInfoWindow('none')" class="datenBlock" id="datenBlock">
-       <div class="datenCon" id="datenCon0">
-         <table class="kollabieren">
-          <tr>
-           <th colspan="2">Aktuelle Messdaten von<span id="AktTimestamp">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="uhr">Uhr</span></th>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Temperatur in &#176;C</td>
-           <td class="zentriert breiter1 groesser" id="AktTempOut"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">gefühlte Temperatur in &#176;C</td>
-           <td class="zentriert breiter1" id="AktWindChill"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">rel. Luftfeuchtigkeit in %</td>
-           <td class="zentriert breiter1" id="AktRelHumOut"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Taupunkt in &#176;C</td>
-           <td class="zentriert breiter1" id="AktDewpoint"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">relativer Luftdruck in hPa</td>
-           <td class="zentriert breiter1" id="AktRelPressure"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Windrichtung</td>
-           <td class="zentriert breiter1" id="AktWindDir"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Windgeschwindigkeit km/h</td>
-           <td class="zentriert breiter1" id="AktWindSpeed"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Windböen in km/h</td>
-           <td class="zentriert breiter1" id="AktWindGust"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Regen in mm (letzte Stunde)</td>
-           <td class="zentriert breiter1" id="AktRain1h"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Regen in mm (letzte 24h)</td>
-           <td class="zentriert breiter1" id="AktRain24h"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Sonnenschein in kW</td>
-           <td class="zentriert breiter1" id="AktPower"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Sonnenschein in %</td>
-           <td class="zentriert breiter1" id="AktSonnenProzent"></td>
-          </tr>
-          <tr>
-           <td class="zelleAktuellLinks">Sonnentag</td>
-           <td class="zentriert breiter1" id="AktSunriseset"></td>
-          </tr>
-         </table>
-         <div class="freiefUberschrift sonnenschein">Sonnenschein</div>
-         <canvas id="AktSonne" width="314" height="202"></canvas>
+<!-- ******** 10-Tagesvorschau ************************************************************************************************** -->
+       <div class="datenCon" id="datenCon6">
+        <table class="kollabieren">
+         <tr>
+          <th colspan="2">Wettervorhersage für 10 Tage</th>
+         </tr>
+        </table>
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal0" />
+          <div id="ForecastDatestring0" class="ForecastDatestring"></div>
+          <img id="ForecastIcon0" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions0" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop0" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf0" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose0" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax0" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin0" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal1" />
+          <div id="ForecastDatestring1" class="ForecastDatestring"></div>
+          <img id="ForecastIcon1" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions1" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop1" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf1" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose1" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax1" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin1" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal2" />
+          <div id="ForecastDatestring2" class="ForecastDatestring"></div>
+          <img id="ForecastIcon2" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions2" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop2" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf2" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose2" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax2" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin2" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal3" />
+          <div id="ForecastDatestring3" class="ForecastDatestring"></div>
+          <img id="ForecastIcon3" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions3" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop3" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf3" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose3" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax3" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin3" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal4" />
+          <div id="ForecastDatestring4" class="ForecastDatestring"></div>
+          <img id="ForecastIcon4" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions4" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop4" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf4" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose4" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax4" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin4" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal5" />
+          <div id="ForecastDatestring5" class="ForecastDatestring"></div>
+          <img id="ForecastIcon5" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions5" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop5" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf5" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose5" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax5" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin5" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal6" />
+          <div id="ForecastDatestring6" class="ForecastDatestring"></div>
+          <img id="ForecastIcon6" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions6" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop6" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf6" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose6" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax6" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin6" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal7" />
+          <div id="ForecastDatestring7" class="ForecastDatestring"></div>
+          <img id="ForecastIcon7" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions7" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop7" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf7" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose7" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax7" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin7" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal8" />
+          <div id="ForecastDatestring8" class="ForecastDatestring"></div>
+          <img id="ForecastIcon8" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions8" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop8" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf8" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose8" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax8" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin8" class="ForecastTempMin"></div>
+         </div>
+
+         <div class="dayBlock" onclick="showDay(this)">
+          <input type="hidden" id="ForecastDateInternal9" />
+          <div id="ForecastDatestring9" class="ForecastDatestring"></div>
+          <img id="ForecastIcon9" class="ForecastIcon" src="" alt="" />
+          <div id="ForecastConditions9" class="ForecastConditions"></div>
+          <div class="ForecastPopBox">
+           <label>Regen:</label>
+           <div id="ForecastPop9" class="ForecastPop"></div>
+           <label>Menge:</label>
+           <div id="ForecastQpf9" class="ForecastQpf"></div>
+          </div>
+          <canvas id="ForecastWindRose9" class="ForecastWindRose" width="64" height="64"></canvas>
+          <div id="ForecastTempMax9" class="ForecastTempMax"></div>
+          <div id="ForecastTempMin9" class="ForecastTempMin"></div>
+         </div>
+
+       </div>
+<!-- ******** Tagesvorschau ************************************************************************************************** -->
+       <div class="datenCon" id="datenCon5">
+        <table class="kollabieren hundert">
+         <tr colspan="2">
+          <th>Wettervorhersage</th>
+         </tr>
+        </table>
+        <div class="AktSuperBox">
+            <div class="underlayArrows">
+             <input class="dateInput" type="text" id="VorschauDatum" readonly />
+             <img id="leftVorschau" src="js/images/icons-png/carat-l-black.png" width="14" height="14" alt="" />
+             <img id="rightVorschau" src="js/images/icons-png/carat-r-black.png" width="14" height="14" alt="" />
+            </div>
+        </div>
+        <div id="hourBlocks">
+         <div id="hourBlock0" class="hourBlock">
+          <div id="HourlyHour0" class="HourlyHour"></div>
+          <img id="HourlyIcon0" class="HourlyIcon" src="" alt="" />
+          <div id="HourlyCondition0" class="HourlyConditions"></div>
+          <div class="HourlyPopBox">
+           <label>Regen:</label>
+           <div id="HourlyPop0" class="HourlyPop"></div>
+          </div>
+          <canvas id="HourlyWindRose0" class="HourlyWindRose" width="51" height="51"></canvas>
+          <div id="HourlyTemp0" class="HourlyTemp"></div>
+         </div>
+        </div>
+
+       </div>
+<!-- ******** aktuelle Daten ************************************************************************************************** -->
+       <div class="datenCon" id="datenCon4">
+        <table class="kollabieren">
+         <tr>
+          <th colspan="2">Aktuelle Messdaten von<span id="AktTimestamp">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="uhr">Uhr</span></th>
+         </tr>
+        </table>
+
+        <div class="AktSuperBox">
+        <div class="AktBox">
+          <div id="AktTempOut"></div>
+          <div class="degreeC">&#176;C</div>
+        </div>
+
+        <div class="AktBox rechtsBasic">
+          <div class="tempMoreLine">
+           <label>gefühlt:</label>
+           <div id="AktWindChill"></div>
+           <label>&#176;C</label>
+          </div>
+          <div class="tempMoreLine">
+           <label>Taupunkt:</label>
+           <div id="AktDewpoint"></div>
+           <label>&#176;C</label>
+          </div>
+        </div>
+
+         <div class="AktBox">
+          <header>Sonne</header>
+          <canvas id="AktSonne" width="155" height="125"></canvas>
+         </div>
+         <div class="AktBox">
+          <header>Wind</header>
+          <canvas id="AktWind" width="155" height="125"></canvas>
+         </div>
+
+         <div class="AktBox">
+          <header>Regen</header>
+          <div class="tempMoreLine">
+           <label>letzte Stunde:</label>
+           <div id="AktRain1h"></div>mm
+          </div>
+          <div class="tempMoreLine">
+           <label>letzte 24h:</label>
+           <div id="AktRain24h"></div>mm
+          </div>
+         </div>
+         <div class="AktBox">
+          <header>Luft</header>
+          <div class="tempMoreLine">
+           <label>Luftdruck:</label>
+           <div id="AktRelPressure"></div>hPa
+          </div>
+          <div class="tempMoreLine">
+           <label>Feuchtigkeit:</label>
+           <div id="AktRelHumOut"></div>%
+          </div>
+         </div>
+        </div>
+         <!--<header class="obenLuft">Satellit mit Regenradar</header> -->
+         <a title="vergrößern" target="blank" href="http://www.wunderground.com/wundermap/?lat=53.08&lon=7.56&zoom=8&lang=de&type=roadmap&units=metric&rad=1&rad.num=1&rad.spd=50&rad.opa=55&rad.type=00Q&rad.type2=&rad.smo=1&rad.noc=1&rad.stm=0&sat=1&cams=0&sat.opa=70">
+          <img id="radar" /></img>
+         </a>
+
          <div class="freiefUberschrift">Aussichten</div>
          <img id="aussichtenImg" src="img/dummy.png" width="250" height="153" alt="" />
+
+         <div class="freiefUberschrift">Bodenfrost</div>
+         <div class="AktSuperBox">
+         <div class="text" id="soilfrostHtml"></div>
+         <span class="soilfrostHeader">Wahrscheinlichkeit für Bodenfrost</span>
+         <div class="soilfrostShell" id="soilfrostShell">
+          <div id="soilfrostProbColor"></div>
+          <div id="soilfrostProbText"></div>
+         </div>
+         <div class="infoButtonLarge" onclick="soilFrostDisplay()">Bodenfrostwarnung per Mail</div>
+         <div class="text kleiner blocksatz">
+         Die Warnung vor Bodenfrost geschieht ohne Gewähr. Für die Einschätzung der Wahrscheinlichkeit werden nur der augenblickliche
+         Taupunkt und die gemessenen Wetterdaten seit 2009 herangezogen. Diese Datenbasis ist zu gering um zuverlässige Prognosen zu stellen.
+         Deshalb diese Warnung bitte nur zur groben Orientierung einsetzen.
+         </div>
+         </div>
+
+         <div class="freiefUberschrift">Standort und Technik</div>
          <table class="kollabieren">
-          <tr>
-           <th colspan="2">Standort und Technik</th>
-          </tr>
           <tr>
            <td class="zelleAktuellLinks rahmen">Ort</td>
            <td class="zentriert breiter1">Rhauderfehn</td>
@@ -148,22 +364,12 @@
            <td class="zentriert">open2300<br />flot<br />node.js<br />phoneGap</td>
           </tr>
          </table>
-         <div class="freiefUberschrift sonnenschein">Bodenfrost</div>
-         <div class="text" id="soilfrostHtml"></div>
-         <span class="soilfrostHeader">Wahrscheinlichkeit für Bodenfrost</span>
-         <div class="soilfrostShell">
-          <div id="soilfrostProbColor"></div>
-          <div id="soilfrostProbText"></div>
-         </div>
-         <div class="infoButtonLarge" onclick="soilFrostDisplay()">Bodenfrostwarnung per Mail</div>
-         <div class="text kleiner">
-         Die Warnung vor Bodenfrost geschieht ohne Gewähr. Für die Einschätzung der Wahrscheinlichkeit werden nur der augenblickliche
-         Taupunkt und die gemessenen Wetterdaten seit 2009 herangezogen. Diese Datenbasis ist zu gering um zuverlässige Prognosen zu stellen.
-         Deshalb diese Warnung bitte nur zur groben Orientierung einsetzen.
-         </div>
+         <br>
+         Wettervorhersage durch:
+         <a target="blank" href="http://www.wunderground.com/cgi-bin/findweather/hdfForecast?query=53.090%2C7.569&sp=INIEDERS67"><img src="img/wundergroundLogo.jpg" width="236" height="50" alt=""></a>
        </div>
 <!-- ******** Tagesübersicht ************************************************************************************************** -->
-       <div class="datenCon" id="datenCon1">
+       <div class="datenCon" id="datenCon3">
          <table class="kollabieren">
           <tbody>
           <tr>
@@ -356,7 +562,7 @@
          <div class="grafikbox"><img id="grafikMonatWindrichtung" />Windrichtung</div>
        </div>
 <!-- ******** Jahressübersicht ************************************************************************************************** -->
-       <div class="datenCon" id="datenCon3">
+       <div class="datenCon" id="datenCon1">
          <table class="kollabieren">
           <tbody>
           <tr>
@@ -458,7 +664,7 @@
          <div class="grafikbox"><img id="grafikJahrWindrichtung" />Windrichtung</div>
        </div>
 <!-- ******** über die Jahre ************************************************************************************************** -->
-       <div class="datenCon" id="datenCon4">
+       <div class="datenCon" id="datenCon0">
          <table class="kollabieren">
           <tbody>
           <tr>

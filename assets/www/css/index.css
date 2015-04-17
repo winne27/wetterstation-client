@@ -121,7 +121,7 @@ td
    margin: 0 auto;
    text-align: center;
    position: absolute;
-   width: 1596px;
+   width: 2232px;
    visibility: hidden;
    display: block;
 }
@@ -163,6 +163,14 @@ td
 #datenCon4, #vergleichsCon4, #monatsCon4
 {
    left: 1278px;
+}
+#datenCon5, #vergleichsCon5, #monatsCon5
+{
+   left: 1596px;
+}
+#datenCon6, #vergleichsCon6, #monatsCon6
+{
+   left: 1914px;
 }
 #monatsBlock .vergleichsCon
 {
@@ -332,13 +340,13 @@ h1 {
    background-color: #FFE4AD;
    position: relative;
 }
-#leftTag, #leftMonat, #leftJahr, #leftMonats
+#leftTag, #leftMonat, #leftJahr, #leftMonats, #leftVorschau
 {
    position: absolute;
    top: 5px;
    left: 7px;
 }
-#rightTag, #rightMonat, #rightJahr, #rightMonats
+#rightTag, #rightMonat, #rightJahr, #rightMonats, #rightVorschau
 {
    position: absolute;
    top: 5px;
@@ -492,7 +500,8 @@ h1 {
    margin-bottom: 12px;
 }
 #warningRequestAnswer .text,
-#soilFrostDisplay .text
+#soilFrostDisplay .text,
+#soilfrostHtml
 {
    text-align: justify;
    padding-bottom: 10px;
@@ -549,7 +558,6 @@ h1 {
 {
    border: 1px solid #764c24;
    width: 312px;
-   margin-bottom: 2px;
 }
 .monthPickerWindow .ui-datepicker-calendar
 {
@@ -575,7 +583,7 @@ h1 {
 
 .freiefUberschrift
 {
-   width: 311px;
+   width: 312px;
    margin: 6px auto 0;
    border: 1px solid #764c24;
    border-bottom: 0 none;
@@ -617,10 +625,7 @@ div.valueLabel
 {
    right: 7px;
 }
-#AktSonne
-{
-   margin: 14px auto 2px;
-}
+
 .sonnenschein
 {
    border-bottom: 1px solid #764c24;
@@ -641,7 +646,7 @@ div.valueLabel
 }
 .soilfrostShell
 {
-   width: 312px;
+   width: 298px;
    height: 30px;
    display: block;
    border: 1px solid #764c24;
@@ -692,4 +697,271 @@ div.valueLabel
    overflow: visible;
    display: none;
 
+}
+.AktTempBox
+{
+   width: 100%;
+   text-align: right;
+}
+.AktTempOutBox
+{
+   width: 180px;
+   text-align: center;
+   vertical-align: top;
+   display: inline-block;
+}
+
+#AktTempOut
+{
+   color: #fe6a20;
+   font-size: 2.6em;
+   font-weight: bold;
+   vertical-align: top;
+   display: inline-block;
+}
+.degreeC
+{
+   color: #fe6a20;
+   display: inline-block;
+   font-size: 1.0em;
+   height: 50px;
+   vertical-align: top;
+   padding-top: 4px;
+}
+.tempMore
+{
+   display: inline-block;
+}
+.tempMore label
+{
+   display: inline-block;
+   padding-right: 6px;
+}
+#AktWindChill, #AktDewpoint, #AktRelPressure, #AktRelHumOut, #AktRain1h, #AktRain24h
+{
+   display: inline-block;
+}
+.tempMoreLine
+{
+   padding-top: 3px;
+   padding-right: 10px;
+}
+.AktBox
+{
+   width: 147px;
+   display: inline-block;
+   text-align: center;
+   vertical-align: top;
+}
+.rechtsBasic
+{
+   text-align: right;
+}
+header
+{
+   font-size: 1.25em;
+   font-weight: bold;
+   margin-top: 12px;
+}
+#radar
+{
+   margin: 6px 0;
+   height: 312px;
+   width: 312px;
+   display: block;
+   border: 1px solid #764C24;
+}
+.blocksatz
+{
+   text-align: justify;
+   -moz-hyphens: auto;
+   -o-hyphens: auto;
+   -webkit-hyphens: auto;
+   -ms-hyphens: auto;
+   hyphens: auto;
+}
+.hundert
+{
+   width: 100%;
+}
+.AktSuperBox
+{
+   border: 1px solid #764C24;
+   padding: 6px;
+   width: 300px;
+}
+.rahmen
+{
+   border: 1px solid #764C24;
+}
+
+.dayBlock
+{
+   background-color: #FFF4DE;
+   position: relative;
+   width: 311px;
+   display: block;
+   border: 1px solid #764C24;
+   height: 75px;
+   margin-bottom: 6px;
+   cursor: pointer;
+}
+
+.ForecastDatestring
+{
+   position: absolute;
+   top: 6px;
+   left: 6px;
+   font-weight: bold;
+   text-align: center;
+   width: 50px;
+}
+
+.ForecastIcon
+{
+   position: absolute;
+   top: 20px;
+   left: 6px;
+}
+
+.ForecastConditions
+{
+   position: absolute;
+   top: 6px;
+   left: 60px;
+   font-weight: bold;
+}
+
+.ForecastPopBox
+{
+   position: absolute;
+   top: 25px;
+   left: 64px;
+   font-size: 10pt;
+   width: 85px;
+   text-align: left;
+   font-size: 10pt;
+}
+
+.ForecastPopBox label
+{
+   width: 50px;
+   display: inline-block;
+}
+
+.ForecastPop
+{
+   display: inline-block;
+}
+
+.ForecastQpf
+{
+   display: inline-block;
+}
+
+.ForecastTempMax
+{
+   position: absolute;
+   top: 6px;
+   left: 260px;
+   font-weight: bold;
+   text-align: center;
+   width: 50px;
+   font-size: 18pt;
+   color: #fe6a20;
+}
+.ForecastWindRose
+{
+   position: absolute;
+   top: 6px;
+   left: 174px;
+}
+.ForecastTempMin
+{
+   position: absolute;
+   top: 40px;
+   left: 260px;
+   font-weight: bold;
+   text-align: center;
+   width: 50px;
+   font-size: 14pt;
+   color: #151BCC;
+}
+.hourBlock
+{
+   background-color: #FFF4DE;
+   position: relative;
+   width: 311px;
+   display: block;
+   border: 1px solid #764C24;
+   height: 56px;
+   margin-bottom: 6px;
+}
+#hourBlocks
+{
+   padding-top: 6px;
+}
+.HourlyHour
+{
+   position: absolute;
+   top: 17px;
+   left: 6px;
+   font-weight: bold;
+   font-size: 12pt;
+   text-align: right;
+   width: 42px;
+}
+
+.HourlyIcon
+{
+   position: absolute;
+   top: 6px;
+   left: 50px;
+}
+
+.HourlyConditions
+{
+   position: absolute;
+   top: 6px;
+   left: 110px;
+   font-weight: bold;
+}
+
+.HourlyPopBox
+{
+   position: absolute;
+   top: 25px;
+   left: 110px;
+   font-size: 10pt;
+   width: 85px;
+   text-align: left;
+   font-size: 10pt;
+}
+
+.HourlyPopBox label
+{
+   width: 50px;
+   display: inline-block;
+}
+
+.HourlyPop
+{
+   display: inline-block;
+}
+.HourlyWindRose
+{
+   position: absolute;
+   top: 3px;
+   left: 194px;
+}
+.HourlyTemp
+{
+   position: absolute;
+   top: 10px;
+   left: 260px;
+   font-weight: bold;
+   text-align: center;
+   width: 50px;
+   font-size: 20pt;
+   color: #fe6a20;
 }
