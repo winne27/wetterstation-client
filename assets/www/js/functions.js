@@ -295,7 +295,7 @@ var setDateInput =
 
 function toggleInfoWindow(displayValue)
 {
-   document.getElementById('infoWindow').style.top = (+window.pageYOffset + 260) + 'px';
+   document.getElementById('infoWindow').style.top = (+window.pageYOffset + 0) + 'px';
    document.getElementById('infoWindow').style.display = displayValue;
 }
 
@@ -375,7 +375,10 @@ function pad(number, length)
 function soilFrostDisplay()
 {
    document.getElementById('soilFrostDisplay').style.display = 'block';
-   document.getElementById('soilFrostDisplay').style.top = (+window.pageYOffset + 280) + 'px';
+
+   document.getElementById('soilFrostDisplay').style.top = (+window.pageYOffset + 270) + 'px';
+   var leftpos = document.getElementById('datenCon4').offsetLeft + document.getElementById('datenBlock').offsetLeft;
+   document.getElementById('soilFrostDisplay').style.left = leftpos + 'px';
 }
 function requestWarningEntry(type)
 {
@@ -396,6 +399,8 @@ function successWarningEntry(data)
    {
       document.getElementById('warningRequestAnswer').style.display = 'block';
       document.getElementById('warningRequestAnswer').style.top = (+window.pageYOffset + 280) + 'px';
+      var leftpos = document.getElementById('datenCon4').offsetLeft + document.getElementById('datenBlock').offsetLeft;
+      document.getElementById('soilFrostDisplay').style.left = leftpos + 'px';
    }
 }
 function monatsShift(dir)

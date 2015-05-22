@@ -189,6 +189,8 @@ var app =
 
          window.setTimeout('app.setupVergleichsCons()',4000);
 
+         counter("Wetter " + app.queryext);
+
          app.weather.on('connect_timeout',function(e)
          {
             clearTimeout(app.geoloctimer);
@@ -453,7 +455,7 @@ var app =
          conSonne[jahr] = document.createElement('div');
          conSonne[jahr].className = 'grafikbox';
          conSonne[jahr].textContent = 'Sonnenenergie ' + jahr;
-         document.getElementById('vergleichsCon0').appendChild(conSonne[jahr]);
+         document.getElementById('vergleichsCon1').appendChild(conSonne[jahr]);
          imgSonne[jahr] = document.createElement('img');
          imgSonne[jahr].id = 'grafikJahrSonne' + jahr;
          conSonne[jahr].appendChild(imgSonne[jahr]);
@@ -461,7 +463,7 @@ var app =
          conTemperatur[jahr] = document.createElement('div');
          conTemperatur[jahr].className = 'grafikbox';
          conTemperatur[jahr].textContent = 'Temperatur ' + jahr + ' in °C';
-         document.getElementById('vergleichsCon1').appendChild(conTemperatur[jahr]);
+         document.getElementById('vergleichsCon2').appendChild(conTemperatur[jahr]);
          imgTemperatur[jahr] = document.createElement('img');
          imgTemperatur[jahr].id = 'grafikJahrTemperatur' + jahr;
          conTemperatur[jahr].appendChild(imgTemperatur[jahr]);
@@ -469,7 +471,7 @@ var app =
          conRegen[jahr] = document.createElement('div');
          conRegen[jahr].className = 'grafikbox';
          conRegen[jahr].textContent = 'Niederschlag ' + jahr + ' in mm';
-         document.getElementById('vergleichsCon2').appendChild(conRegen[jahr]);
+         document.getElementById('vergleichsCon3').appendChild(conRegen[jahr]);
          imgRegen[jahr] = document.createElement('img');
          imgRegen[jahr].id = 'grafikJahrRegen' + jahr;
          conRegen[jahr].appendChild(imgRegen[jahr]);
@@ -477,7 +479,7 @@ var app =
          conWindmax[jahr] = document.createElement('div');
          conWindmax[jahr].className = 'grafikbox';
          conWindmax[jahr].textContent = 'Windgeschwindigkeit ' + jahr + ' in km/h';
-         document.getElementById('vergleichsCon3').appendChild(conWindmax[jahr]);
+         document.getElementById('vergleichsCon4').appendChild(conWindmax[jahr]);
          imgWindmax[jahr] = document.createElement('img');
          imgWindmax[jahr].id = 'grafikJahrWindmax' + jahr;
          conWindmax[jahr].appendChild(imgWindmax[jahr]);
@@ -485,7 +487,7 @@ var app =
          conLuftdruck[jahr] = document.createElement('div');
          conLuftdruck[jahr].className = 'grafikbox';
          conLuftdruck[jahr].textContent = 'rel. Luftdruck ' + jahr + ' in hPa';
-         document.getElementById('vergleichsCon4').appendChild(conLuftdruck[jahr]);
+         document.getElementById('vergleichsCon5').appendChild(conLuftdruck[jahr]);
          imgLuftdruck[jahr] = document.createElement('img');
          imgLuftdruck[jahr].id = 'grafikJahrLuftdruck' + jahr;
          conLuftdruck[jahr].appendChild(imgLuftdruck[jahr]);
@@ -527,7 +529,7 @@ var app =
       conSonneMonat = document.createElement('div');
       conSonneMonat.className = 'grafikbox';
       conSonneMonat.textContent = 'Sonnenenergie';
-      document.getElementById('monatsCon0').appendChild(conSonneMonat);
+      document.getElementById('monatsCon1').appendChild(conSonneMonat);
       imgSonneMonat = document.createElement('img');
       imgSonneMonat.id = 'grafikMonatsSonne';
       conSonneMonat.appendChild(imgSonneMonat);
@@ -535,7 +537,7 @@ var app =
       conTemperaturMonat = document.createElement('div');
       conTemperaturMonat.className = 'grafikbox';
       conTemperaturMonat.textContent = 'Temperatur in °C';
-      document.getElementById('monatsCon1').appendChild(conTemperaturMonat);
+      document.getElementById('monatsCon2').appendChild(conTemperaturMonat);
       imgTemperaturMonat = document.createElement('img');
       imgTemperaturMonat.id = 'grafikMonatsTemperatur';
       conTemperaturMonat.appendChild(imgTemperaturMonat);
@@ -543,7 +545,7 @@ var app =
       conRegenMonat = document.createElement('div');
       conRegenMonat.className = 'grafikbox';
       conRegenMonat.textContent = 'Niederschlag in mm';
-      document.getElementById('monatsCon2').appendChild(conRegenMonat);
+      document.getElementById('monatsCon3').appendChild(conRegenMonat);
       imgRegenMonat = document.createElement('img');
       imgRegenMonat.id = 'grafikMonatsRegen';
       conRegenMonat.appendChild(imgRegenMonat);
@@ -551,7 +553,7 @@ var app =
       conWindmaxMonat = document.createElement('div');
       conWindmaxMonat.className = 'grafikbox';
       conWindmaxMonat.textContent = 'Windgeschwindigkeit in km/h';
-      document.getElementById('monatsCon3').appendChild(conWindmaxMonat);
+      document.getElementById('monatsCon4').appendChild(conWindmaxMonat);
       imgWindmaxMonat = document.createElement('img');
       imgWindmaxMonat.id = 'grafikMonatsWindmax';
       conWindmaxMonat.appendChild(imgWindmaxMonat);
@@ -559,7 +561,7 @@ var app =
       conLuftdruckMonat = document.createElement('div');
       conLuftdruckMonat.className = 'grafikbox';
       conLuftdruckMonat.textContent = 'rel. Luftdruck in hPa';
-      document.getElementById('monatsCon4').appendChild(conLuftdruckMonat);
+      document.getElementById('monatsCon5').appendChild(conLuftdruckMonat);
       imgLuftdruckMonat = document.createElement('img');
       imgLuftdruckMonat.id = 'grafikMonatsLuftdruck';
       conLuftdruckMonat.appendChild(imgLuftdruckMonat);
@@ -755,7 +757,27 @@ var app =
                 doScroll = true;
                 if (app.leftScrollOld < window.pageXOffset)
                 {
-                   if (window.pageXOffset > app.left[3])
+                   for (var i = app.typesCount -2; i >= 0; i--)
+                   {
+                      if (window.pageXOffset > app.left[i])
+                      {
+                         scrollToX = app.left[i + 1];
+                         app.leftCon = i + 2;
+                         break;
+                      }
+                   }
+                   /*
+                   if (window.pageXOffset > app.left[5])
+                   {
+                      scrollToX = app.left[6];
+                      app.leftCon = 7;
+                   }
+                   else if (window.pageXOffset > app.left[4])
+                   {
+                      scrollToX = app.left[5];
+                      app.leftCon = 6;
+                   }
+                   else if (window.pageXOffset > app.left[3])
                    {
                       scrollToX = app.left[4];
                       app.leftCon = 5;
@@ -775,9 +797,20 @@ var app =
                       scrollToX = app.left[1];
                       app.leftCon = 2;
                    }
+                   */
                 }
                 else
                 {
+                   for (var i = 0; i <= app.typesCount - 1; i++)
+                   {
+                      if (window.pageXOffset < app.left[i + 1])
+                      {
+                         scrollToX = app.left[i];
+                         app.leftCon = i + 1;
+                         break;
+                      }
+                   }
+                   /*
                    if (window.pageXOffset < app.left[1])
                    {
                       scrollToX = app.left[0];
@@ -798,11 +831,17 @@ var app =
                       scrollToX = app.left[3];
                       app.leftCon = 4;
                    }
-                   else
+                   else  if (window.pageXOffset < app.left[5])
                    {
                       scrollToX = app.left[4];
                       app.leftCon = 5;
                    }
+                   else
+                   {
+                      scrollToX = app.left[5];
+                      app.leftCon = 6;
+                   }
+                   */
                 }
             }
             app.leftScrollOld = window.pageXOffset;
@@ -811,9 +850,19 @@ var app =
                var overlayWidth = Math.max(0,($(window).width() - app.widthLimits[app.conCount - 1]) / 2);
                document.getElementById('vergleichsKopf').style.paddingLeft = scrollToX + 'px';
                document.getElementById('monatsKopf').style.paddingLeft = scrollToX + 'px';
-               $('html, body').animate({scrollLeft: scrollToX}, 300);
+               //$('html, body').animate({scrollLeft: scrollToX}, 300);
+               $('html, body').animate(
+               {
+                  scrollLeft: scrollToX
+               },
+               {
+                  duration: 300,
+                  complete:  function ()
+                  {
+                     app.handleScrollIcons();
+                  }
+               });
             }
-            app.handleScrollIcons();
          }
       }, 50);
    },
@@ -821,19 +870,19 @@ var app =
    {
       if (app.leftCon == 1)
       {
-         document.getElementById('leftScroll').style.visibility = 'hidden';
+         document.getElementById('leftScroll').style.display = 'none';
       }
       else
       {
-         document.getElementById('leftScroll').style.visibility = 'visible';
+         document.getElementById('leftScroll').style.display = 'block';
       }
       if (app.leftCon + app.conCount > app.typesCount)
       {
-         document.getElementById('rightScroll').style.visibility = 'hidden';
+         document.getElementById('rightScroll').style.display = 'none';
       }
       else
       {
-         document.getElementById('rightScroll').style.visibility = 'visible';
+         document.getElementById('rightScroll').style.display = 'block';
       }
    },
    handleBaeume: function()

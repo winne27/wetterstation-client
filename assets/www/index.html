@@ -24,8 +24,8 @@
         <a href="https://fehngarten.de/index.php"> <img src="img/textlogo.png" width="240" height="49" alt=""></a>
         <div id="entfernung"></div>
        </div>
-       <img id="leftScroll" src="img/arrow-l-black.png" width="14" height="14" alt="" onclick="window.scrollBy(-1,0)">
-       <img id="rightScroll" src="img/arrow-r-black.png" width="14" height="14" alt="" onclick="window.scrollBy(1,0)">
+       <img id="leftScroll" src="img/arrow-l-black.png" width="14" height="14" alt="" onclick="window.scrollBy(-1,0);this.style.display='none'">
+       <img id="rightScroll" src="img/arrow-r-black.png" width="14" height="14" alt="" onclick="window.scrollBy(1,0);this.style.display='none'">
       </div>
       </div>
       <div id="offline">
@@ -766,11 +766,11 @@
        <div class="vergleichsKopfShell">
         <div class="vergleichsKopf" id="vergleichsKopf">Jahresvergleiche</div>
        </div>
-       <div id="vergleichsCon0" class="vergleichsCon"></div>
        <div id="vergleichsCon1" class="vergleichsCon"></div>
        <div id="vergleichsCon2" class="vergleichsCon"></div>
        <div id="vergleichsCon3" class="vergleichsCon"></div>
        <div id="vergleichsCon4" class="vergleichsCon"></div>
+       <div id="vergleichsCon5" class="vergleichsCon"></div>
       </div>
 <!-- ******** Monatsvergleich ************************************************************************************************** -->
       <div onclick="toggleInfoWindow('none')" class="vergleichsBlock" id="monatsBlock">
@@ -784,11 +784,11 @@
          </div>
         </div>
        </div>
-       <div id="monatsCon0" class="vergleichsCon"></div>
        <div id="monatsCon1" class="vergleichsCon"></div>
        <div id="monatsCon2" class="vergleichsCon"></div>
        <div id="monatsCon3" class="vergleichsCon"></div>
        <div id="monatsCon4" class="vergleichsCon"></div>
+       <div id="monatsCon5" class="vergleichsCon"></div>
       </div>
 
       <div id="leftOverlay"></div>
@@ -833,6 +833,7 @@
       <script type="text/javascript" src="js/index.js"></script>
       <script type="text/javascript" src="js/functions.js"></script>
       <script type="text/javascript" src="js/monthPicker.js"></script>
+      <script type="text/javascript" src="https://kein-design.de/counter.js"></script>
       <!--<script type="text/javascript" src="js/jquery.mobile-1.4.2.min.js"></script> -->
       <script type="text/javascript">
          app.initialize(false);

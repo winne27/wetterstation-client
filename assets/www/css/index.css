@@ -473,7 +473,7 @@ h1 {
 }
 #offline, #warningRequestAnswer, #soilFrostDisplay
 {
-   width: 298px;
+   width: 287px;
    margin: 0 auto;
    padding: 0 10px 15px;
    text-align: center;
@@ -496,7 +496,7 @@ h1 {
 
 #soilFrostDisplay input
 {
-   width: 235px;
+   width: 225px;
    margin-bottom: 12px;
 }
 #warningRequestAnswer .text,
@@ -612,8 +612,8 @@ div.valueLabel
 #leftScroll, #rightScroll
 {
    position: absolute;
-   bottom: 5px;
-   visibility: hidden;
+   bottom: -12px;
+   display: none;
    cursor: pointer;
 }
 #leftScroll
