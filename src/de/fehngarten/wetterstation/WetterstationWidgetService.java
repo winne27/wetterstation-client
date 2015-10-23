@@ -9,16 +9,20 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.display.DisplayManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
-//import android.util.Log;
+import android.util.Log;
+import android.view.Display;
 import android.widget.RemoteViews;
 
 public class WetterstationWidgetService extends Service
@@ -30,20 +34,20 @@ public class WetterstationWidgetService extends Service
    public RemoteViews views;
    public Handler handler = new Handler();
    public PowerManager pm;
-     
+   private Context context;
+   
    private Runnable checkSocket = new Runnable()
    {
-      @SuppressWarnings("deprecation")
       @Override
       public void run()
       {
          //Log.i("trace", "socket connected: " + socket.connected() + " - power status: " + pm.isScreenOn());
-         if (!socket.connected() & pm.isScreenOn())
+         if (!socket.connected() & isScreenOn())
          {
             socket.disconnect();
             socket.connect();
          }
-         else if (socket.connected() & !pm.isScreenOn())
+         else if (socket.connected() & !isScreenOn())
          {
             socket.disconnect();
          }
@@ -53,6 +57,40 @@ public class WetterstationWidgetService extends Service
       }
    };
 
+   public boolean isScreenOn()
+   {
+      if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH)
+      {
+         return isScreenOnNew();  
+      }
+      else
+      {
+         return isScreenOnOld();
+      }
+   }
+
+   @SuppressWarnings("deprecation")
+   public boolean isScreenOnOld()
+   {
+      PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+      return pm.isScreenOn();
+   }
+   
+   @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) 
+   public boolean isScreenOnNew()
+   {
+      DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
+      boolean screenOn = false;
+      for (Display display : dm.getDisplays())
+      {
+         if (display.getState() != Display.STATE_OFF)
+         {
+            screenOn = true;
+         }
+      }
+      return screenOn;      
+   }
+   
    private Runnable initSocket = new Runnable()
    {
       @Override
@@ -122,17 +160,17 @@ public class WetterstationWidgetService extends Service
       }
    }
 
-   @SuppressWarnings("deprecation")
    public void onStart(Intent intent, int startId)
    {
       //Log.i("trace", "onStart fired");
       pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
       //Log.i("string", "screen on: " + pm.isScreenOn());
-      if (!pm.isScreenOn()) { return; }
+      if (!isScreenOn()) { return; }
       appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
 
       ComponentName thisWidget = new ComponentName(getApplicationContext(), WetterstationWidgetProvider.class);
-
+      context = getApplicationContext();
+      
       allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
       //allWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
@@ -166,8 +204,7 @@ public class WetterstationWidgetService extends Service
          options = new IO.Options();
          options.reconnection = false;
          options.timeout = 5000;
-         options.query = "client=Widget&platform=Android&version=" + android.os.Build.VERSION.RELEASE + "&model="
-         + android.os.Build.MODEL;
+         options.query = "client=Widget&platform=Android&version=" + android.os.Build.VERSION.RELEASE + "&model=" + android.os.Build.MODEL + "&appver=" + getString(R.string.appver);
          handler.postDelayed(initSocket, 1000);
       }
  
@@ -193,6 +230,7 @@ public class WetterstationWidgetService extends Service
          e1.printStackTrace();
       }
 
+      socket.off("data");
       socket.on("data", new Emitter.Listener()
       {
          @Override
@@ -215,6 +253,7 @@ public class WetterstationWidgetService extends Service
          }
       });
 
+      socket.off(Socket.EVENT_CONNECT);
       socket.on(Socket.EVENT_CONNECT, new Emitter.Listener()
       {
          @Override

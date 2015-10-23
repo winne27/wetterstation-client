@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="appver">4.1.1</string>
     <string name="app_name">Fehnwetter</string>
     <string name="widget_name">Fehnwetter Widget </string>
     <string name="header">Wetterstation Rhauderfehn</string>
