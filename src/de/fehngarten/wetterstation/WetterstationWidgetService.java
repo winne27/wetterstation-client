@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.util.Log;
 import android.view.Display;
 import android.widget.RemoteViews;
 
@@ -165,7 +164,7 @@ public class WetterstationWidgetService extends Service
       //Log.i("trace", "onStart fired");
       pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
       //Log.i("string", "screen on: " + pm.isScreenOn());
-      if (!isScreenOn()) { return; }
+      //if (!isScreenOn()) { return; }
       appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
 
       ComponentName thisWidget = new ComponentName(getApplicationContext(), WetterstationWidgetProvider.class);
